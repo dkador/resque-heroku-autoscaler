@@ -10,7 +10,7 @@ module Resque
         scaling_disabled = Resque::Plugins::HerokuAutoscaler::Config.scaling_disabled?
         puts "scaling_disabled #{scaling_disabled}"
         info = Resque.info
-        puts "resque #{resque}"
+        puts "resque #{Resque}"
         puts "resque info #{info}"
         if !Resque::Plugins::HerokuAutoscaler::Config.scaling_disabled? && \
           Resque.info[:workers] == 0 && \
