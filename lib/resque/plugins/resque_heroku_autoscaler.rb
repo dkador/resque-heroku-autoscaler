@@ -40,7 +40,12 @@ module Resque
       def current_workers
         ps_result = heroku_client.ps(Resque::Plugins::HerokuAutoscaler::Config.heroku_app)
         puts "ps_result #{ps_result}"
-        heroku_client.info(Resque::Plugins::HerokuAutoscaler::Config.heroku_app)[:workers].to_i
+        ps_result.each do |ps_info|
+          if ps_info["process"] == "worker.1"
+            return 1
+          end
+        end
+        return 0
       end
 
       def heroku_client
