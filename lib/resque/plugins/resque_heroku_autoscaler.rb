@@ -30,6 +30,7 @@ module Resque
 
       def set_workers(number_of_workers)
         puts "set_workers with #{number_of_workers}"
+        puts "current_workers #{current_workers}"
         if number_of_workers != current_workers
           #heroku_client.set_workers(Resque::Plugins::HerokuAutoscaler::Config.heroku_app, number_of_workers)
           heroku_client.ps_scale(Resque::Plugins::HerokuAutoscaler::Config.heroku_app, :type => "worker", :qty => number_of_workers)
