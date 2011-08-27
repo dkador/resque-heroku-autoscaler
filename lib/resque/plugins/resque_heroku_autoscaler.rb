@@ -38,6 +38,8 @@ module Resque
       end
 
       def current_workers
+        ps_result = heroku_client.ps(Resque::Plugins::HerokuAutoscaler::Config.heroku_app)
+        puts "ps_result #{ps_result}"
         heroku_client.info(Resque::Plugins::HerokuAutoscaler::Config.heroku_app)[:workers].to_i
       end
 
