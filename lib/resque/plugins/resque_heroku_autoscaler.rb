@@ -9,13 +9,17 @@ module Resque
         puts "after_enqueue_scale_workers_up"
         my_pending = Resque.info[:pending])
         puts "pending #{my_pending}"
+        scaling_disabled = Resque::Plugins::HerokuAutoscaler::Config.scaling_disabled?
+        puts "scaling_disabled #{scaling_disabled}"
+        resque_workers = Resque.info[:workers]
+        puts "resque workers #{resque_workers}"
+        new_worker_count = Resque::Plugins::HerokuAutoscaler::Config.new_worker_count(Resque.info[:pending])
+        puts "new_worker_count #{new_worker_count}"
         if !Resque::Plugins::HerokuAutoscaler::Config.scaling_disabled? && \
           Resque.info[:workers] == 0 && \
           Resque::Plugins::HerokuAutoscaler::Config.new_worker_count(Resque.info[:pending]) >= 1
           set_workers(1)
           Resque.redis.set('last_scaled', Time.now)
-        else
-          puts "DISABLED"
         end
       end
 
