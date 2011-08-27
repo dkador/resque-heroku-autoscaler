@@ -34,6 +34,7 @@ module Resque
         end
 
         def new_worker_count(pending=nil, *payload, &calculate_count)
+          puts "new_worker_count"
           if calculate_count
             @new_worker_count = calculate_count
           else

@@ -12,6 +12,8 @@ module Resque
         info = Resque.info
         puts "resque #{Resque}"
         puts "resque info #{info}"
+        count = Resque::Plugins::HerokuAutoscaler::Config.new_worker_count(Resque.info[:pending])
+        puts "count #{count}"
         if !Resque::Plugins::HerokuAutoscaler::Config.scaling_disabled? && \
           Resque.info[:workers] == 0 && \
           Resque::Plugins::HerokuAutoscaler::Config.new_worker_count(Resque.info[:pending]) >= 1
